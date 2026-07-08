@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>鄂尔多斯供电公司2026年十项民生工程进度指标看板</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e27;--card:#111638;--border:rgba(100,180,255,0.12);--text:#e0e8f5;--text2:#8899bb;--accent:#00d4ff;--accent2:#7b61ff;--green:#00e88f;--orange:#ffa600;--red:#ff4757;--blue:#4dabf7}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;background-image:radial-gradient(ellipse at 20% 50%,rgba(0,100,255,0.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(123,97,255,0.05) 0%,transparent 50%)}
+.container{max-width:1600px;margin:0 auto;padding:20px 24px 40px}
+.header{text-align:center;padding:30px 0 24px;position:relative}
+.header::after{content:'';display:block;width:320px;height:2px;margin:16px auto 0;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent)}
+.header h1{font-size:30px;font-weight:700;letter-spacing:6px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .subtitle{font-size:13px;color:var(--text2);margin-top:8px;letter-spacing:2px}
+.section-title{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:3px;padding:16px 0 14px;margin:20px 0 16px;position:relative;border-bottom:1px solid var(--border)}
+.section-title::before{content:'';display:inline-block;width:4px;height:16px;background:var(--accent);border-radius:2px;vertical-align:middle;margin-right:10px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-2px);border-color:rgba(0,212,255,0.3)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.3),transparent)}
+.card-title{font-size:14px;font-weight:600;color:var(--text);letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.stat-big{font-size:42px;font-weight:700;line-height:1;text-align:center;margin:8px 0}
+.stat-big.blue{color:var(--accent);text-shadow:0 0 20px rgba(0,212,255,0.3)}
+.stat-big.green{color:var(--green);text-shadow:0 0 20px rgba(0,232,143,0.3)}
+.stat-big.orange{color:var(--orange);text-shadow:0 0 20px rgba(255,166,0,0.3)}
+.stat-big.purple{color:var(--accent2);text-shadow:0 0 20px rgba(123,97,255,0.3)}
+.stat-label{text-align:center;font-size:12px;color:var(--text2);margin-top:4px}
+.progress-wrap{margin:10px 0}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:4px}
+.progress-bar{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width 1.5s ease}
+.fill-blue{background:linear-gradient(90deg,#0066ff,var(--accent))}
+.fill-green{background:linear-gradient(90deg,#00aa55,var(--green))}
+.fill-orange{background:linear-gradient(90deg,#cc7700,var(--orange))}
+.fill-red{background:linear-gradient(90deg,#cc2233,var(--red))}
+.mini-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.mini-stat{background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,0.04)}
+.mini-stat .val{font-size:22px;font-weight:700;line-height:1.2}
+.mini-stat .lbl{font-size:11px;color:var(--text2);margin-top:2px}
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{background:rgba(0,212,255,0.06);color:var(--text2);font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.data-table td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--text)}
+.data-table tr:hover td{background:rgba(0,212,255,0.03)}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.badge-green{background:rgba(0,232,143,0.15);color:var(--green)}
+.badge-blue{background:rgba(0,212,255,0.15);color:var(--accent)}
+.badge-orange{background:rgba(255,166,0,0.15);color:var(--orange)}
+.badge-red{background:rgba(255,71,87,0.15);color:var(--red)}
+.alert-item{display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:6px;border-radius:6px;font-size:12px;border-left:3px solid}
+.alert-critical{background:rgba(255,71,87,0.06);border-color:var(--red)}
+.alert-warning{background:rgba(255,166,0,0.06);border-color:var(--orange)}
+.alert-info{background:rgba(0,212,255,0.06);border-color:var(--accent)}
+.pie-chart{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;position:relative}
+.legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:10px}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+/* Filter bar */
+.filter-bar{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.filter-bar label{font-size:13px;color:var(--text2);font-weight:600}
+.filter-bar select,.filter-bar input{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px 12px;font-size:13px;outline:none}
+.filter-bar select:focus,.filter-bar input:focus{border-color:var(--accent)}
+.filter-bar select option{background:var(--card);color:var(--text)}
+.btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:1px}
+.btn:hover{opacity:.85}
+.btn-reset{background:rgba(255,255,255,0.1)}
+.result-count{font-size:13px;color:var(--text2);margin-left:auto}
+/* Detail table section */
+.detail-section{margin-bottom:20px}
+.detail-section .card{padding:0}
+.detail-section .card-title{padding:16px 20px 12px}
+.table-scroll{overflow-x:auto;padding:0 20px 16px}
+.table-scroll table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
+.table-scroll th{background:rgba(0,212,255,0.06);color:var(--text2);font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0}
+.table-scroll td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--text);white-space:nowrap}
+.table-scroll tr:hover td{background:rgba(0,212,255,0.03)}
+.search-input{min-width:200px}
+@media(max-width:1200px){.grid-4,.grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}.header h1{font-size:22px}.filter-bar{flex-direction:column;align-items:stretch}}
+.footer{text-align:center;padding:24px 0 8px;font-size:11px;color:var(--text2);opacity:.5}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>鄂尔多斯供电公司 · 2026年十项民生工程</h1>
+<div class="subtitle">进 度 指 标 看 板</div>
+<div class="stat-label" id="updateTime">数据更新时间：2026-07-08</div>
+</div>
+
+<!-- ===== 筛选栏 ===== -->
+<div class="filter-bar">
+<label>🔍 筛选条件：</label>
+<select id="filterCategory"><option value="">-- 全部工程 --</option></select>
+<select id="filterCity"><option value="">-- 全部单位 --</option></select>
+<input type="text" class="search-input" id="filterSearch" placeholder="搜索项目名称...">
+<button class="btn btn-reset" onclick="resetFilters()">重置</button>
+<span class="result-count" id="resultCount"></span>
+</div>
+
+<!-- ===== 总体情况概览 ===== -->
+<div class="section-title">总体情况概览</div>
+<div class="grid-4">
+<div class="card" style="text-align:center"><div class="stat-label">十项工程总项目数</div><div class="stat-big blue" id="grandTotal">--</div><div class="stat-label">覆盖9家盟市公司</div></div>
+<div class="card" style="text-align:center"><div class="stat-label">已完成治理</div><div class="stat-big green" id="grandDone">--</div><div class="stat-label">项目</div></div>
+<div class="card" style="text-align:center"><div class="stat-label">总投资规模</div><div class="stat-big purple" id="grandInvest">--</div><div class="stat-label">万元</div></div>
+<div class="card" style="text-align:center"><div class="stat-label">整体完成率</div><div class="stat-big orange" id="grandPct">--</div><div class="stat-label">%</div></div>
+</div>
+
+<!-- 饼图 + 分类完成率 -->
+<div class="grid-2">
+<div class="card">
+<div class="card-title"><span class="dot"></span>项目状态分布</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%">
+<div class="pie-chart" id="pieChart"></div>
+<div class="legend" id="pieLegend"></div>
+</div>
+</div>
+<div class="card">
+<div class="card-title"><span class="dot"></span>十项工程分类完成率 TOP5</div>
+<div id="categoryChart" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px"></div>
+</div>
+</div>
+
+<!-- ===== 总体进度 ===== -->
+<div class="section-title">总体进度</div>
+<div class="card">
+<div class="card-title"><span class="dot"></span>各工程完成率排名</div>
+<div id="progressBars" style="padding:8px 0"></div>
+</div>
+
+<!-- ===== 预警中心 ===== -->
+<div class="section-title">预 警 中 心</div>
+<div class="grid-3" id="alertsGrid"></div>
+
+<!-- ===== 督办事项 ===== -->
+<div class="section-title">督 办 事 项</div>
+<div class="grid-2">
+<div class="card">
+<div class="card-title"><span class="dot"></span>各地市完成率排名</div>
+<table class="data-table"><thead><tr><th>排名</th><th>盟市公司</th><th>总项目数</th><th>已完成</th><th>完成率</th><th>状态</th></tr></thead><tbody id="cityRankBody"></tbody></table>
+</div>
+<div class="card">
+<div class="card-title"><span class="dot"></span>滞后工程督办</div>
+<div id="delayItems"></div>
+</div>
+</div>
+
+<!-- ===== 详细数据表 ===== -->
+<div class="section-title">具 体 完 成 情 况</div>
+
+<!-- 地市维度表 -->
+<div class="card" style="margin-bottom:16px">
+<div class="card-title"><span class="dot"></span>各地市工程完成情况汇总</div>
+<div class="table-scroll">
+<table class="data-table"><thead><tr><th>盟市公司</th><th>养老院</th><th>高层小区</th><th>标准化考场</th><th>频繁停电</th><th>局部绝缘化</th><th>树线矛盾</th><th>异常台区</th><th>示范区</th><th>跨产权小区</th><th>农牧区线路</th><th>合计</th><th>完成率</th><th>状态</th></tr></thead><tbody id="cityDetailBody"></tbody></table>
+</div>
+</div>
+
+<!-- 工程维度表 -->
+<div class="card" style="margin-bottom:16px">
+<div class="card-title"><span class="dot"></span>十项工程完成情况明细</div>
+<div class="table-scroll">
+<table class="data-table"><thead><tr><th>工程名称</th><th>总项目数</th><th>已完成</th><th>进行中</th><th>未开始</th><th>总投资(万)</th><th>完成率</th><th>状态</th></tr></thead><tbody id="categoryDetailBody"></tbody></table>
+</div>
+</div>
+
+<!-- 示范区专项 -->
+<div class="section-title">示 范 区 专 项</div>
+<div class="grid-2">
+<div class="card"><div class="card-title"><span class="dot"></span>示范区建设概况</div><div class="mini-stats" id="demoStats"></div></div>
+<div class="card"><div class="card-title"><span class="dot"></span>各地示范区完成率</div>
+<div class="table-scroll"><table class="data-table"><thead><tr><th>盟市</th><th>示范区数</th><th>平均完成率</th></tr></thead><tbody id="demoTable"></tbody></table></div>
+</div>
+</div>
+
+<!-- 农牧区线路专项 -->
+<div class="section-title">农 牧 区 配 电 线 路 专 项</div>
+<div class="grid-2">
+<div class="card"><div class="card-title"><span class="dot"></span>线路治理概况</div><div class="mini-stats" id="lineStats"></div></div>
+<div class="card"><div class="card-title"><span class="dot"></span>各地市完成情况</div>
+<div class="table-scroll"><table class="data-table"><thead><tr><th>供电单位</th><th>线路数</th><th>已完成</th><th>完成率</th></tr></thead><tbody id="lineTable"></tbody></table></div>
+</div>
+</div>
+
+<div class="footer">鄂尔多斯供电公司 · 2026年十项民生工程进度指标看板 · 数据每周更新</div>
+</div>
+
+<script>
+const D={"updateTime":"2026-07-08","sections":{"养老院":{"t":252,"d":39,"inv":201,"nst":12,"totalInvest":"11928","pct":"15.5","bc":{"呼和浩特":{"t":34,"d":2,"inv":32,"nst":0},"包头供电":{"t":68,"d":3,"inv":65,"nst":0},"鄂尔多斯":{"t":40,"d":29,"inv":11,"nst":0},"乌兰察布":{"t":20,"d":1,"inv":16,"nst":3},"巴彦淖尔":{"t":44,"d":2,"inv":42,"nst":0},"乌海供电":{"t":7,"d":0,"inv":4,"nst":3},"锡林郭勒":{"t":27,"d":1,"inv":23,"nst":3},"阿拉善供":{"t":7,"d":1,"inv":6,"nst":0},"薛家湾供":{"t":5,"d":0,"inv":2,"nst":3}}},"高层小区":{"t":47,"d":1,"inv":46,"nst":0,"pct":"2.1","bc":{"鄂尔多斯":{"t":8,"d":1,"inv":7,"nst":0},"呼和浩特":{"t":23,"d":0,"inv":23,"nst":0},"巴彦淖尔":{"t":8,"d":0,"inv":8,"nst":0},"乌海供电":{"t":8,"d":0,"inv":8,"nst":0}}},"标准化考场":{"t":175,"d":99,"inv":74,"nst":2,"pct":"56.6","bc":{"呼和浩特":{"t":47,"d":17,"inv":30,"nst":0},"包头供电":{"t":20,"d":11,"inv":9,"nst":0},"鄂尔多斯":{"t":19,"d":17,"inv":2,"nst":0},"乌兰察布":{"t":22,"d":19,"inv":3,"nst":0},"巴彦淖尔":{"t":16,"d":7,"inv":9,"nst":0},"乌海供电":{"t":9,"d":4,"inv":5,"nst":0},"阿拉善供":{"t":14,"d":8,"inv":6,"nst":0},"薛家湾供":{"t":2,"d":0,"inv":0,"nst":2},"锡林郭勒":{"t":26,"d":16,"inv":10,"nst":0}}},"频繁停电":{"t":1247,"d":637,"inv":584,"nst":26,"pct":"51.1","bc":{"呼和浩特":{"t":244,"d":88,"inv":144,"nst":12},"包头供电":{"t":109,"d":65,"inv":44,"nst":0},"鄂尔多斯":{"t":51,"d":50,"inv":1,"nst":0},"乌兰察布":{"t":380,"d":188,"inv":192,"nst":0},"巴彦淖尔":{"t":169,"d":116,"inv":53,"nst":0},"乌海供电":{"t":1,"d":0,"inv":1,"nst":0},"锡林郭勒":{"t":202,"d":82,"inv":106,"nst":14},"阿拉善供":{"t":28,"d":20,"inv":8,"nst":0},"薛家湾供":{"t":63,"d":28,"inv":35,"nst":0}}},"局部绝缘化":{"t":2376,"d":1566,"pct":"65.9","bc":{"旗县区供":{"t":1,"d":1},"玉泉供电":{"t":14,"d":0},"武川供电":{"t":70,"d":3},"托克托供":{"t":51,"d":0},"托克托工":{"t":22,"d":0},"土左供电":{"t":117,"d":8},"清水河供":{"t":18,"d":0},"回民供电":{"t":25,"d":17},"金川供电":{"t":18,"d":0},"新城供电":{"t":6,"d":0},"赛罕供电":{"t":4,"d":0},"科技城园":{"t":10,"d":0},"金桥供电":{"t":30,"d":0},"和林供电":{"t":96,"d":2},"和林格尔":{"t":54,"d":12},"东河供电":{"t":13,"d":13},"青山供电":{"t":1,"d":1},"高新供电":{"t":13,"d":13},"石拐供电":{"t":12,"d":12},"白云供电":{"t":6,"d":6},"九原供电":{"t":23,"d":23},"土右供电":{"t":14,"d":14},"固阳供电":{"t":44,"d":44},"达茂供电":{"t":31,"d":31},"东胜铁西":{"t":2,"d":0},"乌审供电":{"t":24,"d":24},"鄂托克供":{"t":18,"d":18},"伊金霍洛":{"t":34,"d":13},"鄂托克前":{"t":15,"d":15},"康巴什供":{"t":6,"d":5},"杭锦供电":{"t":14,"d":14},"达拉特供":{"t":45,"d":44},"东胜供电":{"t":7,"d":6},"棋盘井供":{"t":26,"d":21},"集宁供电":{"t":91,"d":91},"察哈尔供":{"t":96,"d":96},"丰镇供电":{"t":15,"d":15},"察右前旗":{"t":29,"d":29},"察右中旗":{"t":12,"d":12},"察右后旗":{"t":6,"d":6},"四子王供":{"t":123,"d":123},"化德供电":{"t":28,"d":28},"商都供电":{"t":32,"d":32},"卓资供电":{"t":38,"d":38},"兴和供电":{"t":48,"d":48},"凉城供电":{"t":44,"d":44},"乌拉特前":{"t":150,"d":150},"临河供电":{"t":12,"d":8},"乌拉特中":{"t":95,"d":95},"农垦供电":{"t":45,"d":45},"五原供电":{"t":4,"d":4},"磴口供电":{"t":11,"d":11},"乌拉特后":{"t":7,"d":7},"巴彦供电":{"t":4,"d":4},"杭锦后旗":{"t":42,"d":40},"海勃湾供":{"t":11,"d":11},"锡林浩特":{"t":30,"d":0},"阿巴嘎旗":{"t":39,"d":7},"东乌珠穆":{"t":47,"d":15},"多伦供电":{"t":5,"d":0},"二连浩特":{"t":24,"d":24},"苏尼特左":{"t":54,"d":30},"太仆寺旗":{"t":8,"d":8},"乌拉盖供":{"t":15,"d":0},"苏尼特右":{"t":25,"d":24},"西乌珠穆":{"t":39,"d":10},"镶黄旗供":{"t":44,"d":44},"正蓝旗供":{"t":32,"d":32},"正镶白旗":{"t":18,"d":8},"吉兰泰供":{"t":14,"d":5},"乌力吉供":{"t":8,"d":4},"巴彦浩特":{"t":20,"d":18},"腾格里供":{"t":6,"d":3},"额济纳供":{"t":7,"d":7},"阿右旗供":{"t":6,"d":0},"乌素图供":{"t":2,"d":0},"准格尔供":{"t":40,"d":6},"市区供电":{"t":29,"d":4},"大路供电":{"t":37,"d":20}}},"树线矛盾":{"t":9103,"d":5481,"pct":"60.2","bc":{"呼和浩特":{"t":340,"d":340},"包头供电":{"t":379,"d":311},"鄂尔多斯":{"t":2702,"d":2449},"乌兰察布":{"t":1162,"d":812},"巴彦淖尔":{"t":2759,"d":872},"乌海供电":{"t":314,"d":39},"锡林郭勒":{"t":657,"d":344},"阿拉善供":{"t":181,"d":92},"薛家湾供":{"t":609,"d":222}}},"异常台区":{"t":112,"d":0,"nst":112,"pct":"0.0","bc":{"新城供电":{"t":3,"d":0,"nst":3},"赛罕供电":{"t":5,"d":0,"nst":5},"和林供电":{"t":2,"d":0,"nst":2},"和林新区":{"t":6,"d":0,"nst":6},"托克托供":{"t":1,"d":0,"nst":1},"武川供电":{"t":1,"d":0,"nst":1},"回民供电":{"t":3,"d":0,"nst":3},"清水河供":{"t":1,"d":0,"nst":1},"固阳供电":{"t":3,"d":0,"nst":3},"昆区供电":{"t":1,"d":0,"nst":1},"青山供电":{"t":2,"d":0,"nst":2},"高新供电":{"t":4,"d":0,"nst":4},"新都市区":{"t":1,"d":0,"nst":1},"白云供电":{"t":1,"d":0,"nst":1},"东河供电":{"t":3,"d":0,"nst":3},"土右供电":{"t":2,"d":0,"nst":2},"东胜供电":{"t":3,"d":0,"nst":3},"东胜铁西":{"t":1,"d":0,"nst":1},"鄂托克前":{"t":3,"d":0,"nst":3},"杭锦供电":{"t":3,"d":0,"nst":3},"伊金霍洛":{"t":3,"d":0,"nst":3},"鄂托克供":{"t":3,"d":0,"nst":3},"乌审供电":{"t":1,"d":0,"nst":1},"察哈尔供":{"t":1,"d":0,"nst":1},"化德供电":{"t":2,"d":0,"nst":2},"集宁供电":{"t":2,"d":0,"nst":2},"卓资供电":{"t":1,"d":0,"nst":1},"商都供电":{"t":2,"d":0,"nst":2},"杭锦后旗":{"t":3,"d":0,"nst":3},"五原供电":{"t":2,"d":0,"nst":2},"农垦供电":{"t":14,"d":0,"nst":14},"磴口供电":{"t":1,"d":0,"nst":1},"乌拉特后":{"t":1,"d":0,"nst":1},"乌拉特中":{"t":3,"d":0,"nst":3},"乌拉特前":{"t":2,"d":0,"nst":2},"临河供电":{"t":1,"d":0,"nst":1},"滨河供电":{"t":1,"d":0,"nst":1},"千里山供":{"t":1,"d":0,"nst":1},"二连浩特":{"t":1,"d":0,"nst":1},"锡林浩特":{"t":6,"d":0,"nst":6},"阿巴嘎供":{"t":1,"d":0,"nst":1},"东乌珠穆":{"t":1,"d":0,"nst":1},"苏尼特左":{"t":1,"d":0,"nst":1},"苏尼特右":{"t":1,"d":0,"nst":1},"多伦供电":{"t":1,"d":0,"nst":1},"乌拉盖供":{"t":1,"d":0,"nst":1},"腾格里供":{"t":1,"d":0,"nst":1},"额济纳供":{"t":1,"d":0,"nst":1},"乌力吉供":{"t":1,"d":0,"nst":1},"市区供电":{"t":2,"d":0,"nst":2},"准格尔供":{"t":1,"d":0,"nst":1}}},"示范区":{"t":27,"totalInvest":"242025","avgComp":"76.7","bc":{"呼和浩特":{"t":3,"c":2.443},"包头供电":{"t":3,"c":2.1833},"鄂尔多斯":{"t":6,"c":4.31},"乌兰察布":{"t":2,"c":1.7777},"巴彦淖尔":{"t":3,"c":2.571},"乌海供电":{"t":3,"c":1.8359},"锡林郭勒":{"t":2,"c":2},"阿拉善供":{"t":3,"c":2.58},"薛家湾供":{"t":1,"c":1},"合计":{"t":1,"c":0}}},"跨产权小区":{"t":597,"d":0,"dir":108,"ref":75,"bld":108,"pct":"0.0","bc":{"呼和浩特":{"t":41,"d":0},"包头供电":{"t":59,"d":0},"鄂尔多斯":{"t":221,"d":0},"乌兰察布":{"t":40,"d":0},"巴彦淖尔":{"t":98,"d":0},"乌海供电":{"t":18,"d":0},"锡林郭勒":{"t":73,"d":0},"阿拉善供":{"t":6,"d":0},"薛家湾供":{"t":41,"d":0}}},"保电场所":{"t":17,"bc":{"乌兰察布":13,"巴彦淖尔":4}},"农牧区线路":{"t":964,"d":80,"totalInvest":"45874","pct":"8.3","bc":{"呼和浩特":{"t":119,"d":0},"包头供电":{"t":88,"d":0},"鄂尔多斯":{"t":109,"d":80},"乌兰察布":{"t":177,"d":0},"巴彦淖尔":{"t":66,"d":0},"乌海供电":{"t":15,"d":0},"锡林郭勒":{"t":258,"d":0},"阿拉善供":{"t":81,"d":0},"薛家湾供":{"t":51,"d":0}}}},"grand":{"total":14917,"done":7903,"investing":905,"notstart":152,"invest":"299827","pct":"53.0"}};
+
+const S=D.sections,G=D.grrand;
+const cities=['呼和浩特','包头供电','鄂尔多斯','乌兰察布','巴彦淖尔','乌海供电','锡林郭勒','阿拉善供','薛家湾供'];
+const catKeys=['养老院','高层小区','标准化考场','频繁停电','局部绝缘化','树线矛盾','异常台区','示范区','跨产权小区','农牧区线路','保电场所','农牧区线路'];
+
+// ===== Populate filters =====
+const fc=document.getElementById('filterCategory'),fci=document.getElementById('filterCity');
+catKeys.forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=k;fc.appendChild(o)});
+cities.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;fci.appendChild(o)});
+
+// ===== Render overview =====
+document.getElementById('grandTotal').textContent=Number(G.total).toLocaleString();
+document.getElementById('grandDone').textContent=Number(G.done).toLocaleString();
+document.getElementById('grandInvest').textContent=Number(G.invest).toLocaleString();
+document.getElementById('grandPct').textContent=G.pct;
+
+// Pie chart
+const pd=[{l:'已完成',v:G.done,c:'#00e88f'},{l:'进行中',v:G.investing,c:'#ffa600'},{l:'未开始',v:G.notstart,c:'#ff4757'}];
+const pt=pd.reduce((s,p)=>s+p.v,0);
+let gp=[],cp=0;pd.forEach(p=>{const pct=p.v/pt*100;gp.push(p.c+' '+cp+'% '+(cp+pct)+'%');cp+=pct});
+document.getElementById('pieChart').style.background='conic-gradient('+gp.join(',')+')';
+document.getElementById('pieLegend').innerHTML=pd.map(p=>'<div class="legend-item"><span class="legend-dot" style="background:'+p.c+'"></span>'+p.l+' '+p.v.toLocaleString()+'</div>').join('');
+
+// Category mini charts
+const ci=[{n:'示范区',p:parseFloat(S.示范区.avgComp)},{n:'局部绝缘化',p:parseFloat(S.局部绝缘化.pct)},{n:'树线矛盾',p:parseFloat(S.树线矛盾.pct)},{n:'标准化考场',p:parseFloat(S.标准化考场.pct)},{n:'频繁停电',p:parseFloat(S.频繁停电.pct)},{n:'养老院',p:parseFloat(S.养老院.pct)},{n:'高层小区',p:parseFloat(S.高层小区.pct)},{n:'跨产权小区',p:parseFloat(S.跨产权小区.pct)},{n:'异常台区',p:parseFloat(S.异常台区.pct)},{n:'农牧区线路',p:parseFloat(S.农牧区线路.pct)}];
+ci.sort((a,b)=>b.p-a.p);
+document.getElementById('categoryChart').innerHTML=ci.slice(0,5).map(item=>{const cls=item.p>=60?'fill-green':item.p>=30?'fill-orange':'fill-red';return '<div style="text-align:center"><div style="font-size:11px;color:var(--text2);margin-bottom:6px">'+item.n+'</div><div class="progress-bar" style="height:10px"><div class="progress-fill '+cls+'" style="width:'+item.p+'%"></div></div><div style="font-size:14px;font-weight:700;margin-top:4px">'+item.p+'%</div></div>'}).join('');
+
+// Progress bars
+const bars=document.getElementById('progressBars');
+bars.innerHTML=ci.map(item=>{const cls=item.p>=60?'fill-green':item.p>=30?'fill-orange':'fill-red';return '<div class="progress-wrap"><div class="progress-label"><span>'+item.n+'</span><span>'+item.p+'%</span></div><div class="progress-bar"><div class="progress-fill '+cls+'" style="width:'+item.p+'%"></div></div></div>'}).join('');
+
+// Alerts
+const alerts=[];
+if(parseFloat(S.异常台区.pct)===0)alerts.push({lv:'critical',t:'异常台区治理',d:'112个项目尚未启动治理，完成率0%',i:'🔴'});
+if(parseFloat(S.高层小区.pct)<10)alerts.push({lv:'critical',t:'高层小区治理',d:'仅'+S.高层小区.d+'/'+S.高层小区.t+'个完成，完成率'+S.高层小区.pct+'%',i:'🔴'});
+if(parseFloat(S.跨产权小区.pct)===0)alerts.push({lv:'warning',t:'跨产权供电小区',d:'597个项目尚未完成移交，需加快协议签订',i:'🟡'});
+if(parseFloat(S.农牧区线路.pct)<20)alerts.push({lv:'warning',t:'农牧区配电线路',d:'已完成'+S.农牧区线路.d+'/'+S.农牧区线路.t+'条，完成率'+S.农牧区线路.pct+'%',i:'🟡'});
+if(parseFloat(S.养老院.pct)<20)alerts.push({lv:'info',t:'养老院改造',d:'已完成'+S.养老院.d+'/'+S.养老院.t+'个，总投资'+S.养老院.totalInvest+'万元',i:'🔵'});
+document.getElementById('alertsGrid').innerHTML=alerts.map(a=>'<div class="card"><div class="alert-item alert-'+a.lv+'"><span style="font-size:18px">'+a.i+'</span><div><div style="font-weight:600;margin-bottom:2px">'+a.t+'</div><div style="color:var(--text2)">'+a.d+'</div></div></div></div>').join('');
+
+// City rank
+const cm={};cities.forEach(c=>cm[c]={t:0,d:0});
+for(const[,sec]of Object.entries(S)){for(const[c,data]of Object.entries(sec.bc||{})){if(cm[c]){cm[c].t+=data.t;if(data.d!==undefined)cm[c].d+=data.d}}}
+const cr=Object.entries(cm).map(([n,data])=>({name:n,...data,pct:data.t?((data.d/data.t)*100).toFixed(1):0})).sort((a,b)=>parseFloat(b.pct)-parseFloat(a.pct));
+document.getElementById('cityRankBody').innerHTML=cr.map((c,i)=>{const cls=parseFloat(c.pct)>=60?'badge-green':parseFloat(c.pct)>=30?'badge-orange':'badge-red';const st=parseFloat(c.pct)>=60?'良好':parseFloat(c.pct)>=30?'关注':'预警';return '<tr><td class="num">'+(i+1)+'</td><td>'+c.name+'</td><td class="num">'+c.t.toLocaleString()+'</td><td class="num">'+c.d.toLocaleString()+'</td><td><span class="badge '+cls+'">'+c.pct+'%</span></td><td><span class="badge '+cls+'">'+st+'</span></td></tr>'}).join('');
+
+// Delay items
+const delays=ci.filter(x=>x.p<30).sort((a,b)=>a.p-b.p);
+document.getElementById('delayItems').innerHTML=delays.map(d=>'<div class="alert-item alert-critical" style="margin-bottom:8px"><span style="font-size:16px">⚠️</span><div><div style="font-weight:600">'+d.n+'</div><div style="color:var(--text2);font-size:11px">完成率 '+d.p+'%</div></div></div>').join('')||'<div style="color:var(--text2);text-align:center;padding:20px">暂无滞后项目</div>';
+
+// City detail table (cross-tabulation)
+const catCols=['养老院','高层小区','标准化考场','频繁停电','局部绝缘化','树线矛盾','异常台区','跨产权小区','农牧区线路'];
+const ctBody=document.getElementById('cityDetailBody');
+let ctRows='';
+cities.forEach(city=>{
+  let row='<tr><td style="font-weight:600">'+city+'</td>';
+  let tt=0,td=0;
+  catCols.forEach(cat=>{
+    const sec=S[cat],bc=sec&&sec.bc;
+    const data=bc&&bc[city]?{t:bc[city].t,d:bc[city].d}:{t:0,d:0};
+    tt+=data.t;td+=data.d;
+    const pct=data.t?(data.d/data.t*100).toFixed(1):'0.0';
+    const cls=parseFloat(pct)>=60?'badge-green':parseFloat(pct)>=30?'badge-orange':'badge-red';
+    row+='<td><span class="badge '+cls+'">'+pct+'%</span></td>';
+  });
+  // Demo col
+  const demoSec=S.示范区,demoData=demoSec&&demoSec.bc&&demoSec.bc[city]?demoSec.bc[city]:{t:0,c:0};
+  const demoPct=demoSec&&demoSec.bc&&demoSec.bc[city]?(demoData.c/demoData.t*100).toFixed(1):'N/A';
+  row+='<td class="num">'+demoData.t+'</td>';
+  row+='<td><span class="badge badge-blue">'+demoPct+'%</span></td>';
+  // Cross-property
+  const cpSec=S.跨产权小区,cpData=cpSec&&cpSec.bc&&cpSec.bc[city]?{t:cpSec.bc[city].t,d:cpSec.bc[city].d}:{t:0,d:0};
+  const cpPct=cpData.t?(cpData.d/cpData.t*100).toFixed(1):'0.0';
+  row+='<td><span class="badge '+((parseFloat(cpPct)>0)?'badge-green':'badge-red')+'">'+cpPct+'%</span></td>';
+  // Total
+  const grandPct=tt?(td/tt*100).toFixed(1):'0.0';
+  const cls=parseFloat(grandPct)>=60?'badge-green':parseFloat(grandPct)>=30?'badge-orange':'badge-red';
+  const st=parseFloat(grandPct)>=60?'良好':parseFloat(grandPct)>=30?'关注':'预警';
+  row+='<td class="num">'+tt.toLocaleString()+'</td>';
+  row+='<td><span class="badge '+cls+'">'+grandPct+'%</span></td>';
+  row+='<td><span class="badge '+cls+'">'+st+'</span></td></tr>';
+  ctRows+=row;
+});
+ctBody.innerHTML=ctRows;
+
+// Category detail table
+const cdBody=document.getElementById('categoryDetailBody');
+const catData=[
+  {n:'养老院',s:S.养老院},{n:'高层小区',s:S.高层小区},{n:'标准化考场',s:S.标准化考场},
+  {n:'频繁停电',s:S.频繁停电},{n:'局部绝缘化',s:S.局部绝缘化},{n:'树线矛盾',s:S.树线矛盾},
+  {n:'异常台区',s:S.异常台区},{n:'示范区',s:S.示范区},{n:'跨产权小区',s:S.跨产权小区},
+  {n:'农牧区线路',s:S.农牧区线路}
+];
+cdBody.innerHTML=catData.map(item=>{
+  const s=item.s;const pct=s.pct||(s.avgComp?s.avgComp:'0.0');
+  const cls=parseFloat(pct)>=60?'badge-green':parseFloat(pct)>=30?'badge-orange':'badge-red';
+  const st=parseFloat(pct)>=60?'良好':parseFloat(pct)>=30?'关注':'预警';
+  let row='<tr><td style="font-weight:600">'+item.n+'</td>';
+  row+='<td class="num">'+s.t.toLocaleString()+'</td>';
+  row+='<td class="num">'+(s.d||0).toLocaleString()+'</td>';
+  if(s.inv!==undefined)row+='<td class="num">'+s.inv.toLocaleString()+'</td>';
+  else row+='<td>-</td>';
+  if(s.nst!==undefined)row+='<td class="num">'+s.nst.toLocaleString()+'</td>';
+  else if(s.nst===0)row+='<td class="num">0</td>';
+  else row+='<td>-</td>';
+  row+='<td class="num">'+(s.totalInvest?Number(s.totalInvest).toLocaleString():'-')+'</td>';
+  row+='<td><span class="badge '+cls+'">'+pct+'%</span></td>';
+  row+='<td><span class="badge '+cls+'">'+st+'</span></td></tr>';
+  return row;
+}).join('');
+
+// Demo stats
+const ds=S.示范区;
+document.getElementById('demoStats').innerHTML='<div class="mini-stat"><div class="val" style="color:var(--accent)">'+ds.t+'</div><div class="lbl">示范区总数</div></div><div class="mini-stat"><div class="val" style="color:var(--green)">'+Number(ds.totalInvest).toLocaleString()+'万</div><div class="lbl">年度投资计划</div></div><div class="mini-stat"><div class="val" style="color:var(--orange)">'+ds.avgComp+'%</div><div class="lbl">平均完成率</div></div>';
+document.getElementById('demoTable').innerHTML=Object.entries(ds.bc).filter(([k])=>k!=='合计').sort((a,b)=>(b[1].c/b[1].t)-(a[1].c/a[1].t)).map(([name,data])=>'<tr><td>'+name+'</td><td class="num">'+data.t+'</td><td><span class="badge badge-green">'+((data.c/data.t*100).toFixed(1))+'%</span></td></tr>').join('');
+
+// Line stats
+const ls=S.农牧区线路;
+document.getElementById('lineStats').innerHTML='<div class="mini-stat"><div class="val" style="color:var(--accent)">'+ls.t.toLocaleString()+'</div><div class="lbl">线路总数</div></div><div class="mini-stat"><div class="val" style="color:var(--green)">'+ls.d.toLocaleString()+'</div><div class="lbl">已完成</div></div><div class="mini-stat"><div class="val" style="color:var(--orange)">'+Number(ls.totalInvest).toLocaleString()+'万</div><div class="lbl">投资预算</div></div>';
+document.getElementById('lineTable').innerHTML=Object.entries(ls.bc).sort((a,b)=>((b[1].d/b[1].t)-(a[1].d/a[1].t))).map(([name,data])=>'<tr><td>'+name+'</td><td class="num">'+data.t+'</td><td class="num">'+data.d+'</td><td><span class="badge '+(data.t&&data.d/data.t>=0.5?'badge-green':data.t&&data.d/data.t>=0.2?'badge-orange':'badge-red')+'">'+(data.t?(data.d/data.t*100).toFixed(1):0)+'%</span></td></tr>').join('');
+
+// ===== Filter logic =====
+function applyFilters(){
+  const cat=document.getElementById('filterCategory').value;
+  const city=document.getElementById('filterCity').value;
+  const search=document.getElementById('filterSearch').value.toLowerCase();
+  let filtered=0;
+  // Update city filter based on category
+  if(cat&&S[cat]){
+    const citiesInCat=Object.keys(S[cat].bc||{}).filter(c=>c!=='合计');
+    fci.innerHTML='<option value="">-- 全部单位 --</option>';
+    citiesInCat.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;fci.appendChild(o)});
+  }else{
+    fci.innerHTML='<option value="">-- 全部单位 --</option>';
+    cities.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;fci.appendChild(o)});
+  }
+  // Count filtered results
+  if(cat||city||search){
+    if(cat&&S[cat]){
+      const bc=S[cat].bc;
+      if(city){filtered=bc[city]?bc[city].t:0}
+      else{Object.values(bc).forEach(v=>filtered+=v.t)}
+    }
+    if(search){filtered='搜索匹配中...'}
+  }else{
+    filtered=G.total;
+  }
+  document.getElementById('resultCount').textContent='筛选结果：'+filtered+' 项';
+}
+document.getElementById('filterCategory').addEventListener('change',applyFilters);
+document.getElementById('filterCity').addEventListener('change',applyFilters);
+document.getElementById('filterSearch').addEventListener('input',applyFilters);
+function resetFilters(){document.getElementById('filterCategory').value='';document.getElementById('filterCity').value='';document.getElementById('filterSearch').value='';applyFilters()}
+
+// Animate
+setTimeout(()=>{document.querySelectorAll('.progress-fill').forEach(el=>{const w=el.style.width;el.style.width='0';requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.width=w}))})},100);
+</script>
+</body>
+</html>
