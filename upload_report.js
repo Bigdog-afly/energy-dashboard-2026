@@ -261,25 +261,6 @@ function parseSection农牧区线路(ws) {
 }
 
 // 保电场所解析函数（如果 sheet 不存在则返回空数据）
-function parseSection保电场所(ws) {
-  if (!ws) return { t: 0, bc: {} };
-  const rd = XLSX.utils.decode_range(ws['!ref']);
-  let total = 0;
-  const byCity = {};
-  for (let r = rd.s.r + 4; r <= rd.e.r; r++) {
-    const idx = gv(ws, r, 0);
-    if (typeof idx !== 'number') continue;
-    total++;
-    const city = gv(ws, r, 1);
-    if (city) {
-      const key = String(city).substring(0, 4);
-      byCity[key] = (byCity[key] || 0) + 1;
-    }
-  }
-  return { t: total, bc: byCity };
-}
-
-// ========== 主处理流程 ==========
 function processExcel(filePath) {
   console.log('='.repeat(60));
   console.log('周报数据处理脚本');
@@ -307,8 +288,8 @@ function processExcel(filePath) {
     '异常台区': { sheet: '6异常台区', fn: parseSection异常台区 },
     '示范区': { sheet: '7.示范区', fn: parseSection示范区 },
     '跨产权小区': { sheet: '9.跨产权供电小区', fn: parseSection跨产权小区 },
-    '保电场所': { sheet: ['10.周期性保电场所再梳理', '10保电场所', '保电场所', '8-1引领区工程进度'], fn: parseSection保电场所 },
-    '农牧区线路': { sheet: ['11.1700余条农牧区配电线路清单', '10.1700余条农牧区配电线路清单'], fn: parseSection农牧区线路 }
+    '保电场所': { sheet: ['8-1引领区工程进度'], fn: parseSection保电场所 },
+    '农牧区线路': { sheet: ['10.1700余条农牧区配电线路清单', '11.1700余条农牧区配电线路清单'], fn: parseSection农牧区线路 }
   };
 
   for (const [name, cfg] of Object.entries(parsers)) {

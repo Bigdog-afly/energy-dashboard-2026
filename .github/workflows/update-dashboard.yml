@@ -48,23 +48,21 @@ jobs:
           node build_data.js
           echo "数据生成完成"
 
-      - name: 检查变更
-        id: check-changes
-        run: |
-          git diff --exit-code dashboard_data.json || echo "has_changes=true" >> $GITHUB_OUTPUT
-          echo "变更检测完成"
-
       - name: 提交并推送变更
-        if: steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'schedule'
+        id: commit-changes
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add dashboard_data.json
-          git commit -m "chore: 自动更新民生工程进度数据 [$(date +%Y-%m-%d)]" || echo "无变更"
-          git push
+          git diff --exit-code dashboard_data.json && echo "has_changes=false" >> $GITHUB_OUTPUT || echo "has_changes=true" >> $GITHUB_OUTPUT
+          if [ "$has_changes" = "true" ]; then
+            git add dashboard_data.json
+            git commit -m "chore: 自动更新民生工程进度数据 [$(date +%Y-%m-%d)]" || echo "无变更"
+            git push
+            echo "pushed=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: 触发 Pages 重建
-        if: steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'schedule'
+        if: steps.commit-changes.outputs.pushed == 'true' || github.event_name == 'schedule'
         run: |
           curl -X POST \
             "https://api.github.com/repos/${{ github.repository }}/pages/builds" \

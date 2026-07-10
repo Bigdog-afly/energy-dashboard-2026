@@ -159,7 +159,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div class="grid-2">
 <div class="card"><div class="card-title"><span class="dot"></span>示范区建设概况</div><div class="mini-stats" id="demoStats"></div></div>
 <div class="card"><div class="card-title"><span class="dot"></span>各地示范区完成率</div>
-<div class="table-scroll"><table class="data-table"><thead><tr><th>示范区名称</th><th>用户数</th><th>线路长度(km)</th><th>可靠率ASAI</th><th>故障压降</th><th>检修完成率</th></tr></thead><tbody id="demoTable"></tbody></table></div>
+<div class="table-scroll"><table class="data-table"><thead><tr><th>示范区名称</th><th>数量</th><th>平均完成率</th></tr></thead><tbody id="demoTable"></tbody></table></div>
 </div>
 </div>
 
@@ -383,11 +383,11 @@ function renderDashboard() {
       '<div class="mini-stat"><div class="val" style="color:var(--accent)">' + ds.t + '</div><div class="lbl">示范区总数</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--green)">' + Number(ds.totalInvest || 0).toLocaleString() + '万</div><div class="lbl">年度投资计划</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--orange)">' + (ds.avgComp || '0') + '%</div><div class="lbl">平均完成率</div></div>';
-    // 示范区 bc 是对象 {city: {t, c}}, 转为数组渲染
-    const demoEntries = Object.entries(ds.bc || {});
+    // 示范区 bc 是对象 {city: {t, c}}, 转为数组渲染（过滤"合计"行）
+    const demoEntries = Object.entries(ds.bc || {}).filter(([k]) => k !== '合计');
     document.getElementById('demoTable').innerHTML = demoEntries.map(([name, v]) =>
-      '<tr><td>' + name + '</td><td class="num">' + v.t.toLocaleString() + '个</td><td colspan="4" style="color:var(--text2)">平均完成率 ' + (v.c ? (v.c * 100).toFixed(1) : '0') + '%</td></tr>'
-    ).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text2)">暂无数据</td></tr>';
+      '<tr><td>' + name + '</td><td class="num">' + v.t.toLocaleString() + '个</td><td><span class="badge badge-green">' + (v.c ? (v.c * 100).toFixed(1) : '0') + '%</span></td></tr>'
+    ).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--text2)">暂无数据</td></tr>';
   }
 
   // ===== 农牧区线路专项 =====
@@ -409,13 +409,19 @@ function renderDashboard() {
   // 隐藏加载遮罩
   document.getElementById('loading').classList.add('hidden');
 
-  // 窗口缩放时重绘图表
-  window.addEventListener('resize', () => {
-    pieChart.resize();
-    radarChart.resize();
-    investChart.resize();
-    progressChart.resize();
-  });
+  // 窗口缩放时重绘图表（避免重复绑定）
+  let resizeHandler = null;
+  function setupResize() {
+    if (resizeHandler) window.removeEventListener('resize', resizeHandler);
+    resizeHandler = () => {
+      pieChart.resize();
+      radarChart.resize();
+      investChart.resize();
+      progressChart.resize();
+    };
+    window.addEventListener('resize', resizeHandler);
+  }
+  setupResize();
 }
 
 // ========== 初始化 ==========
