@@ -179,37 +179,28 @@ const D = { updateTime:'2026-07-08', sections:{} };
   D.sections.跨产权小区={t,d,dir,ref,bld,pct:(t?d/t*100:0).toFixed(1),bc};
 }
 
-// 10 保电场所
+// 10 农牧区线路（sheet名: 10.1700余条农牧区配电线路清单）
 {
-  const ws=wb.Sheets['10.周期性保电场所再梳理'], rd=XLSX.utils.decode_range(ws['!ref']);
-  let t=0;
-  let bc={};
-  for(let r=rd.s.r+4;r<=rd.e.r;r++){
-    const idx=gv(ws,r,0);
-    if(typeof idx!=='number') continue;
-    t++;
-    const city=gv(ws,r,1);
-    if(city){const k=String(city).substr(0,4);bc[k]=(bc[k]||0)+1;}
+  const ws=wb.Sheets['10.1700余条农牧区配电线路清单'];
+  if (!ws) {
+    console.warn('Warning: No sheet found for 农牧区线路');
+    D.sections.农牧区线路 = {t:0,d:0,totalInvest:'0',pct:'0.0',bc:{}};
+  } else {
+    const rd = XLSX.utils.decode_range(ws['!ref']);
+    let t=0,d=0,ti=0;
+    let bc={};
+    for(let r=rd.s.r+1;r<=rd.e.r;r++){
+      const unit=gv(ws,r,0);
+      if(typeof unit!=='number') continue;
+      t++;
+      ti+=(gv(ws,r,5)||0);
+      const k=String(gv(ws,r,1)).substr(0,4);
+      if(!bc[k])bc[k]={t:0,d:0};
+      bc[k].t++;
+      if(gv(ws,r,11)==='是'){d++;bc[k].d++;}
+    }
+    D.sections.农牧区线路={t,d,totalInvest:ti.toFixed(0),pct:(t?d/t*100:0).toFixed(1),bc};
   }
-  D.sections.保电场所={t,bc};
-}
-
-// 11 农牧区线路
-{
-  const ws=wb.Sheets['11.1700余条农牧区配电线路清单'], rd=XLSX.utils.decode_range(ws['!ref']);
-  let t=0,d=0,ti=0;
-  let bc={};
-  for(let r=rd.s.r+1;r<=rd.e.r;r++){
-    const unit=gv(ws,r,0);
-    if(typeof unit!=='number') continue;
-    t++;
-    ti+=(gv(ws,r,5)||0);
-    const k=String(gv(ws,r,1)).substr(0,4);
-    if(!bc[k])bc[k]={t:0,d:0};
-    bc[k].t++;
-    if(gv(ws,r,11)==='是'){d++;bc[k].d++;}
-  }
-  D.sections.农牧区线路={t,d,totalInvest:ti.toFixed(0),pct:(t?d/t*100:0).toFixed(1),bc};
 }
 
 // 汇总
