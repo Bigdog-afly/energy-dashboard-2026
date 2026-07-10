@@ -1,0 +1,85 @@
+name: 更新民生工程进度看板数据
+
+on:
+  schedule:
+    # 每周一早上 08:00 UTC (北京时间 16:00)
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+    inputs:
+      excel_file_url:
+        description: 'Excel 文件下载 URL（可选，留空则使用仓库内文件）'
+        required: false
+        default: ''
+      report_week:
+        description: '报告周次（如 W28）'
+        required: false
+        default: ''
+  push:
+    paths:
+      - 'dashboard_data.json'
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 下载 Excel 文件（如果提供了 URL）
+        if: github.event.inputs.excel_file_url != ''
+        run: |
+          curl -L -o "鄂尔多斯供电公司2026年十项民生工程.xlsx" \
+            "${{ github.event.inputs.excel_file_url }}"
+
+      - name: 生成数据
+        run: |
+          echo "运行数据构建脚本..."
+          node build_data.js
+          echo "数据生成完成"
+
+      - name: 检查变更
+        id: check-changes
+        run: |
+          git diff --exit-code dashboard_data.json || echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "变更检测完成"
+
+      - name: 提交并推送变更
+        if: steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'schedule'
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add dashboard_data.json
+          git commit -m "chore: 自动更新民生工程进度数据 [$(date +%Y-%m-%d)]" || echo "无变更"
+          git push
+
+      - name: 触发 Pages 重建
+        if: steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'schedule'
+        run: |
+          curl -X POST \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json"
+
+      - name: 创建更新通知 Issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '⚠️ 看板数据更新失败',
+              body: `自动数据更新在 workflow run #${context.runId} 中失败了。\n\n**时间:** ${new Date().toISOString()}\n**分支:** ${context.ref}\n\n请检查日志并手动更新数据。`,
+              labels: ['automation', 'bug']
+            })
