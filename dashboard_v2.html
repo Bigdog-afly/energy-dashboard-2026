@@ -338,9 +338,9 @@ function renderDashboard() {
   // ===== 预警中心 =====
   const alerts = [];
   if (parseFloat(S.异常台区?.pct) === 0) alerts.push({ lv: 'critical', t: '异常台区治理', d: '14个项目尚未启动治理，完成率0%', i: '🔴' });
-  if (parseFloat(S.高层小区?.pct) < 20) alerts.push({ lv: 'warning', t: '高层小区治理', d: '仅' + (S.高层小区?.tot || 0) + '/' + S.高层小区?.t + '个完成，完成率' + S.高层小区?.pct + '%', i: '🟡' });
+  if (parseFloat(S.高层小区?.pct) < 20) alerts.push({ lv: 'warning', t: '高层小区治理', d: '仅' + (S.高层小区?.d || 0) + '/' + S.高层小区?.t + '个完成，完成率' + S.高层小区?.pct + '%', i: '🟡' });
   if (parseFloat(S.跨产权小区?.pct) === 0) alerts.push({ lv: 'warning', t: '跨产权供电小区移交', d: S.跨产权小区?.t + '个项目尚未完成移交，直接移交' + (S.跨产权小区?.dir || 0) + '个、先改后移' + (S.跨产权小区?.ref || 0) + '个、以建代改' + (S.跨产权小区?.bld || 0) + '个', i: '🟡' });
-  if (parseFloat(S.农牧区线路?.pct) < 20) alerts.push({ lv: 'critical', t: '农牧区线路治理', d: '仅完成' + S.农牧区线路?.pct + '%，共' + (S.农牧区线路?.tot || 0) + '/' + S.农牧区线路?.t + '条', i: '🔴' });
+  if (parseFloat(S.农牧区线路?.pct) < 20) alerts.push({ lv: 'critical', t: '农牧区线路治理', d: '仅完成' + S.农牧区线路?.pct + '%，共' + (S.农牧区线路?.d || 0) + '/' + S.农牧区线路?.t + '条', i: '🔴' });
   document.getElementById('alertsGrid').innerHTML = alerts.map(a =>
     '<div class="card"><div class="alert-item alert-' + a.lv + '"><span style="font-size:18px">' + a.i + '</span><div><div style="font-weight:600;margin-bottom:2px">' + a.t + '</div><div style="color:var(--text2)">' + a.d + '</div></div></div></div>'
   ).join('') || '<div class="card" style="text-align:center;color:var(--text2);padding:20px">✅ 暂无预警事项</div>';
@@ -383,8 +383,10 @@ function renderDashboard() {
       '<div class="mini-stat"><div class="val" style="color:var(--accent)">' + ds.t + '</div><div class="lbl">示范区总数</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--green)">' + Number(ds.totalInvest || 0).toLocaleString() + '万</div><div class="lbl">年度投资计划</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--orange)">' + (ds.avgComp || '0') + '%</div><div class="lbl">平均完成率</div></div>';
-    document.getElementById('demoTable').innerHTML = (ds.bc || []).map(d =>
-      '<tr><td>' + d.name + '</td><td class="num">' + d.users.toLocaleString() + '</td><td class="num">' + d.length + '</td><td>' + d.asai.toFixed(6) + '</td><td class="num">' + d.faultReduction + '%</td><td><span class="badge badge-green">' + (d.compRate * 100).toFixed(1) + '%</span></td></tr>'
+    // 示范区 bc 是对象 {city: {t, c}}, 转为数组渲染
+    const demoEntries = Object.entries(ds.bc || {});
+    document.getElementById('demoTable').innerHTML = demoEntries.map(([name, v]) =>
+      '<tr><td>' + name + '</td><td class="num">' + v.t.toLocaleString() + '个</td><td colspan="4" style="color:var(--text2)">平均完成率 ' + (v.c ? (v.c * 100).toFixed(1) : '0') + '%</td></tr>'
     ).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text2)">暂无数据</td></tr>';
   }
 
@@ -393,12 +395,14 @@ function renderDashboard() {
   if (ls) {
     document.getElementById('lineStats').innerHTML =
       '<div class="mini-stat"><div class="val" style="color:var(--accent)">' + ls.t.toLocaleString() + '</div><div class="lbl">线路总数</div></div>' +
-      '<div class="mini-stat"><div class="val" style="color:var(--green)">' + (ls.tot || ls.d || 0).toLocaleString() + '</div><div class="lbl">已完成</div></div>' +
+      '<div class="mini-stat"><div class="val" style="color:var(--green)">' + (ls.d || 0).toLocaleString() + '</div><div class="lbl">已完成</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--orange)">' + Number(ls.totalInvest || 0).toLocaleString() + '万</div><div class="lbl">投资预算</div></div>';
-    document.getElementById('lineTable').innerHTML = (ls.bc || []).map(d => {
-      const rate = d.d !== undefined ? (d.d / d.t * 100) : (d.done !== undefined ? (d.done / d.t * 100) : 0);
+    // 农牧区线路 bc 是对象 {city: {t, d}}, 转为数组渲染
+    const lineEntries = Object.entries(ls.bc || {});
+    document.getElementById('lineTable').innerHTML = lineEntries.map(([name, v]) => {
+      const rate = v.d !== undefined && v.t > 0 ? (v.d / v.t * 100) : 0;
       const cls2 = rate >= 50 ? 'badge-green' : rate >= 20 ? 'badge-orange' : 'badge-red';
-      return '<tr><td>' + (d.unit || d.name || '-') + '</td><td class="num">' + d.t + '</td><td class="num">' + (d.d !== undefined ? d.d : d.done || 0) + '</td><td><span class="badge ' + cls2 + '">' + rate.toFixed(1) + '%</span></td></tr>';
+      return '<tr><td>' + name + '</td><td class="num">' + v.t + '</td><td class="num">' + (v.d || 0) + '</td><td><span class="badge ' + cls2 + '">' + rate.toFixed(1) + '%</span></td></tr>';
     }).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text2)">暂无数据</td></tr>';
   }
 
