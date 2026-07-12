@@ -5,85 +5,130 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>鄂尔多斯供电公司2026年十项民生工程进度指标看板</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0a0e27;--card:#111638;--border:rgba(100,180,255,0.12);--text:#e0e8f5;--text2:#8899bb;--accent:#00d4ff;--accent2:#7b61ff;--green:#00e88f;--orange:#ffa600;--red:#ff4757;--blue:#4dabf7}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;background-image:radial-gradient(ellipse at 20% 50%,rgba(0,100,255,0.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(123,97,255,0.05) 0%,transparent 50%)}
-.container{max-width:1600px;margin:0 auto;padding:20px 24px 40px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+/* ===== 粒子背景动画 ===== */
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:.4}
+@keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+/* ===== 流光边框 ===== */
+@keyframes borderGlow{0%,100%{border-color:rgba(0,212,255,.15)}50%{border-color:rgba(0,212,255,.35)}}
+@keyframes cardShine{0%{left:-100%}100%{left:200%}}
+/* ===== 数字跳动 ===== */
+@keyframes numPop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+/* ===== 脉冲呼吸 ===== */
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+/* ===== 主容器 ===== */
+.container{max-width:1600px;margin:0 auto;padding:20px 24px 40px;position:relative;z-index:1}
 .header{text-align:center;padding:30px 0 24px;position:relative}
-.header::after{content:'';display:block;width:320px;height:2px;margin:16px auto 0;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent)}
+.header::after{content:'';display:block;width:320px;height:2px;margin:16px auto 0;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);animation:pulse 3s ease-in-out infinite}
 .header h1{font-size:30px;font-weight:700;letter-spacing:6px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .header .subtitle{font-size:13px;color:var(--text2);margin-top:8px;letter-spacing:2px}
 .section-title{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:3px;padding:16px 0 14px;margin:20px 0 16px;position:relative;border-bottom:1px solid var(--border)}
-.section-title::before{content:'';display:inline-block;width:4px;height:16px;background:var(--accent);border-radius:2px;vertical-align:middle;margin-right:10px}
+.section-title::before{content:'';display:inline-block;width:4px;height:16px;background:var(--accent);border-radius:2px;vertical-align:middle;margin-right:10px;animation:pulse 2s ease-in-out infinite}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-2px);border-color:rgba(0,212,255,0.3)}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.3),transparent)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-3px);border-color:rgba(0,212,255,.35);box-shadow:0 8px 32px rgba(0,212,255,.1)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.3),transparent)}
+.card::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,255,.04),transparent);transition:left .6s ease}
+.card:hover::after{left:200%}
 .card-title{font-size:14px;font-weight:600;color:var(--text);letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:8px;justify-content:space-between}
-.card-title .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
-.stat-big{font-size:42px;font-weight:700;line-height:1;text-align:center;margin:8px 0}
-.stat-big.blue{color:var(--accent);text-shadow:0 0 20px rgba(0,212,255,0.3)}
-.stat-big.green{color:var(--green);text-shadow:0 0 20px rgba(0,232,143,0.3)}
-.stat-big.orange{color:var(--orange);text-shadow:0 0 20px rgba(255,166,0,0.3)}
-.stat-big.purple{color:var(--accent2);text-shadow:0 0 20px rgba(123,97,255,0.3)}
+.card-title .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulse 2s ease-in-out infinite}
+.stat-big{font-size:42px;font-weight:700;line-height:1;text-align:center;margin:8px 0;animation:numPop .6s ease-out}
+.stat-big.blue{color:var(--accent);text-shadow:0 0 20px rgba(0,212,255,.3)}
+.stat-big.green{color:var(--green);text-shadow:0 0 20px rgba(0,232,143,.3)}
+.stat-big.orange{color:var(--orange);text-shadow:0 0 20px rgba(255,166,0,.3)}
+.stat-big.purple{color:var(--accent2);text-shadow:0 0 20px rgba(123,97,255,.3)}
 .stat-label{text-align:center;font-size:12px;color:var(--text2);margin-top:4px}
 .progress-wrap{margin:10px 0}
 .progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:4px}
-.progress-bar{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;border-radius:4px;transition:width 1.5s ease}
+.progress-bar{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width 1.5s ease;position:relative}
+.progress-fill::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shimmer 2s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 .fill-blue{background:linear-gradient(90deg,#0066ff,var(--accent))}
 .fill-green{background:linear-gradient(90deg,#00aa55,var(--green))}
 .fill-orange{background:linear-gradient(90deg,#cc7700,var(--orange))}
 .fill-red{background:linear-gradient(90deg,#cc2233,var(--red))}
 .mini-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.mini-stat{background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,0.04)}
+.mini-stat{background:rgba(255,255,255,.03);border-radius:8px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,.04);transition:all .2s ease}
+.mini-stat:hover{background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.15)}
 .mini-stat .val{font-size:22px;font-weight:700;line-height:1.2}
 .mini-stat .lbl{font-size:11px;color:var(--text2);margin-top:2px}
 .data-table{width:100%;border-collapse:collapse;font-size:12px}
-.data-table th{background:rgba(0,212,255,0.06);color:var(--text2);font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
-.data-table td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--text)}
-.data-table tr:hover td{background:rgba(0,212,255,0.03)}
+.data-table th{background:rgba(0,212,255,.06);color:var(--text2);font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.data-table td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--text);transition:background .2s}
+.data-table tr:hover td{background:rgba(0,212,255,.04)}
 .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
-.badge-green{background:rgba(0,232,143,0.15);color:var(--green)}
-.badge-blue{background:rgba(0,212,255,0.15);color:var(--accent)}
-.badge-orange{background:rgba(255,166,0,0.15);color:var(--orange)}
-.badge-red{background:rgba(255,71,87,0.15);color:var(--red)}
-.alert-item{display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:6px;border-radius:6px;font-size:12px;border-left:3px solid}
-.alert-critical{background:rgba(255,71,87,0.06);border-color:var(--red)}
-.alert-warning{background:rgba(255,166,0,0.06);border-color:var(--orange)}
-.alert-info{background:rgba(0,212,255,0.06);border-color:var(--accent)}
-.pie-chart{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;position:relative}
+.badge-green{background:rgba(0,232,143,.15);color:var(--green)}
+.badge-blue{background:rgba(0,212,255,.15);color:var(--accent)}
+.badge-orange{background:rgba(255,166,0,.15);color:var(--orange)}
+.badge-red{background:rgba(255,71,87,.15);color:var(--red)}
+.alert-item{display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:6px;border-radius:6px;font-size:12px;border-left:3px solid;transition:all .2s ease}
+.alert-item:hover{transform:translateX(4px)}
+.alert-critical{background:rgba(255,71,87,.06);border-color:var(--red)}
+.alert-warning{background:rgba(255,166,0,.06);border-color:var(--orange)}
+.alert-info{background:rgba(0,212,255,.06);border-color:var(--accent)}
 .legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:10px}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)}
 .legend-dot{width:8px;height:8px;border-radius:50%}
 .table-scroll{overflow-x:auto;padding:0 20px 16px}
 .table-scroll table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
-.table-scroll th{background:rgba(0,212,255,0.06);color:var(--text2);font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
-.table-scroll td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--text);white-space:nowrap}
-.table-scroll tr:hover td{background:rgba(0,212,255,0.03)}
+.table-scroll th{background:rgba(0,212,255,.06);color:var(--text2);font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+.table-scroll td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--text);white-space:nowrap}
+.table-scroll tr:hover td{background:rgba(0,212,255,.03)}
 .chart-container{width:100%;height:320px}
 .chart-container-sm{width:100%;height:280px}
-.refresh-btn{background:rgba(0,212,255,0.15);border:1px solid var(--accent);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .2s}
-.refresh-btn:hover{background:rgba(0,212,255,0.3)}
-.loading-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,14,39,0.9);display:flex;align-items:center;justify-content:center;z-index:9999;font-size:18px;color:var(--accent)}
+.loading-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,14,39,.9);display:flex;align-items:center;justify-content:center;z-index:9999;font-size:18px;color:var(--accent);flex-direction:column;gap:16px}
 .loading-overlay.hidden{display:none}
+.loading-spinner{width:40px;height:40px;border:3px solid rgba(0,212,255,.2);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ===== 上传区域 ===== */
+.upload-area{background:rgba(0,212,255,.04);border:2px dashed rgba(0,212,255,.2);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .3s ease;position:relative}
+.upload-area:hover,.upload-area.dragover{background:rgba(0,212,255,.08);border-color:var(--accent)}
+.upload-area input[type="file"]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.upload-icon{font-size:32px;margin-bottom:8px}
+.upload-text{font-size:13px;color:var(--text2)}
+.upload-hint{font-size:11px;color:var(--text2);opacity:.6;margin-top:4px}
+.upload-status{margin-top:12px;font-size:12px;min-height:20px}
+.upload-status.success{color:var(--green)}
+.upload-status.error{color:var(--red)}
+.upload-status.processing{color:var(--orange)}
+/* ===== 响应式 ===== */
 @media(max-width:1200px){.grid-4,.grid-3{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}.header h1{font-size:22px}}
 .footer{text-align:center;padding:24px 0 8px;font-size:11px;color:var(--text2);opacity:.5}
 </style>
 </head>
 <body>
-<div class="loading-overlay" id="loading">正在加载数据...</div>
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- 加载遮罩 -->
+<div class="loading-overlay" id="loading">
+<div class="loading-spinner"></div>
+<span>正在加载数据...</span>
+</div>
+
 <div class="container">
+<!-- 头部 -->
 <div class="header">
 <h1>鄂尔多斯供电公司 · 2026年十项民生工程</h1>
 <div class="subtitle">进 度 指 标 看 板</div>
-<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:8px">
+<div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap">
 <div class="stat-label" id="updateTime">数据更新时间：加载中...</div>
-<button class="refresh-btn" onclick="refreshData()">⟳ 刷新数据</button>
+<div class="upload-area" id="uploadArea">
+<input type="file" accept=".xlsx,.xls" id="fileInput" onchange="handleFileUpload(event)">
+<div class="upload-icon">📤</div>
+<div class="upload-text">上传周报 Excel 文件</div>
+<div class="upload-hint">支持 .xlsx / .xls 格式，拖拽或点击上传</div>
+<div class="upload-status" id="uploadStatus"></div>
+</div>
 </div>
 </div>
 
@@ -108,17 +153,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 </div>
 </div>
 
-<div class="grid-2" style="margin-bottom:16px">
-<div class="card">
-<div class="card-title"><span class="dot"></span>各工程投资对比（万元）</div>
-<div id="investChart" class="chart-container-sm"></div>
-</div>
-<div class="card">
-<div class="card-title"><span class="dot"></span>十项工程完成率 TOP5</div>
-<div id="categoryChart" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px"></div>
-</div>
-</div>
-
 <!-- ===== 总体进度 ===== -->
 <div class="section-title">总体进度</div>
 <div class="card">
@@ -126,20 +160,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div id="progressChart" class="chart-container"></div>
 </div>
 
-<!-- ===== 预警中心 ===== -->
-<div class="section-title">预 警 中 心</div>
-<div class="grid-3" id="alertsGrid"></div>
-
-<!-- ===== 督办事项 ===== -->
-<div class="section-title">督 办 事 项</div>
+<!-- ===== 综合预警与督办 ===== -->
+<div class="section-title">预 警 与 督 办</div>
 <div class="grid-2">
 <div class="card">
-<div class="card-title"><span class="dot"></span>滞后工程督办</div>
+<div class="card-title"><span class="dot"></span>⚠️ 滞后工程督办 <span style="font-size:11px;color:var(--text2);font-weight:400" id="delayCount"></span></div>
 <div id="delayItems"></div>
 </div>
 <div class="card">
-<div class="card-title"><span class="dot"></span>投资完成情况</div>
-<div class="mini-stats" id="investStats"></div>
+<div class="card-title"><span class="dot"></span>🔔 预警中心 <span style="font-size:11px;color:var(--text2);font-weight:400" id="alertCount"></span></div>
+<div id="alertsGrid"></div>
 </div>
 </div>
 
@@ -176,35 +206,183 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 </div>
 
 <script>
-// ========== 数据加载 ==========
+// ========== 全局变量 ==========
 let DATA = null;
+let charts = {};
 
+// ========== 粒子背景 ==========
+(function initParticles(){
+  const c=document.getElementById('particles');
+  const colors=['#00d4ff','#7b61ff','#00e88f','#ffa600'];
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const size=Math.random()*4+2;
+    p.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[i%4]};animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s`;
+    c.appendChild(p);
+  }
+})();
+
+// ========== 数据加载 ==========
 async function loadData() {
   try {
     const resp = await fetch('dashboard_data.json?t=' + Date.now());
     if (resp.ok) {
       DATA = await resp.json();
-    } else {
-      throw new Error('Fetch failed');
-    }
+    } else { throw new Error('Fetch failed'); }
   } catch(e) {
-    // Fallback: try inline data from a global variable
-    if (window.__DASHBOARD_DATA__) {
-      DATA = window.__DASHBOARD_DATA__;
-    } else {
-      alert('数据加载失败，请检查网络连接或数据文件');
-      document.getElementById('loading').classList.add('hidden');
-      return false;
-    }
+    if (window.__DASHBOARD_DATA__) { DATA = window.__DASHBOARD_DATA__; }
+    else { alert('数据加载失败，请检查网络连接或数据文件'); document.getElementById('loading').classList.add('hidden'); return false; }
   }
   return true;
 }
 
-function refreshData() {
-  document.getElementById('loading').classList.remove('hidden');
-  loadData().then(ok => {
-    if (ok) renderDashboard();
+// ========== Excel 上传处理 ==========
+function setUploadStatus(msg, cls) {
+  const el = document.getElementById('uploadStatus');
+  el.textContent = msg;
+  el.className = 'upload-status ' + cls;
+}
+
+async function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  setUploadStatus('⏳ 正在解析文件...', 'processing');
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const wb = XLSX.read(arrayBuffer, { type: 'array' });
+
+    // 调用客户端解析器
+    const newData = parseExcelClient(wb);
+
+    // 更新 DATA
+    DATA = newData;
+
+    // 渲染
+    renderDashboard();
+
+    // 保存数据到 localStorage 作为备份
+    try { localStorage.setItem('dashboard_data', JSON.stringify(newData)); } catch(e) {}
+
+    setUploadStatus('✅ 数据已更新！看板已刷新', 'success');
+  } catch(err) {
+    console.error(err);
+    setUploadStatus('❌ 解析失败: ' + err.message, 'error');
+  }
+}
+
+// 拖拽上传
+(function initDragDrop(){
+  const area = document.getElementById('uploadArea');
+  ['dragenter','dragover'].forEach(evt => area.addEventListener(evt, e => { e.preventDefault(); area.classList.add('dragover'); }));
+  ['dragleave','drop'].forEach(evt => area.addEventListener(evt, e => { e.preventDefault(); area.classList.remove('dragover'); }));
+  area.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (file && /\.(xlsx|xls)$/i.test(file.name)) {
+      document.getElementById('fileInput').files = e.dataTransfer.files;
+      handleFileUpload({ target: { files: [file] }});
+    } else {
+      setUploadStatus('❌ 请上传 .xlsx 或 .xls 文件', 'error');
+    }
   });
+})();
+
+// ========== 客户端 Excel 解析器 ==========
+function gv(ws,r,c){ const a=XLSX.utils.encode_cell({r,c}); return ws[a]?ws[a].v:null; }
+
+function parseExcelClient(wb) {
+  const D = { updateTime: new Date().toISOString().slice(0,10), sections: {} };
+
+  // 1. 养老院
+  { const ws=wb.Sheets['1养老院']; if(!ws){D.sections.养老院={t:0,d:0,inv:0,nst:0,totalInvest:'0',pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,inv=0,nst=0,ti=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const idx=gv(ws,r,0),city=gv(ws,r,1);if(typeof idx!=='number'||!city)continue;t++;ti+=(gv(ws,r,5)||0);const tp=gv(ws,r,7),is=gv(ws,r,8);const k=String(city).substr(0,4);if(!bc[k])bc[k]={t:0,d:0,inv:0,nst:0};bc[k].t++;if(is==='是'){d++;bc[k].d++;}else if(tp&&String(tp).trim()){inv++;bc[k].inv++;}else{nst++;bc[k].nst++;}}
+    // 只保留鄂尔多斯
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.养老院={t,d,inv,nst,totalInvest:ti.toFixed(0),pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 2. 高层小区
+  { const ws=wb.Sheets['2高层小区']; if(!ws){D.sections.高层小区={t:0,d:0,inv:0,nst:0,pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,inv=0,nst=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const idx=gv(ws,r,0),city=gv(ws,r,1);if(typeof idx!=='number'||!city)continue;t++;const tp=gv(ws,r,8),is=gv(ws,r,9);const k=String(city).substr(0,4);if(!bc[k])bc[k]={t:0,d:0,inv:0,nst:0};bc[k].t++;if(is==='是'){d++;bc[k].d++;}else if(tp&&String(tp).trim()){inv++;bc[k].inv++;}else{nst++;bc[k].nst++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.高层小区={t,d,inv,nst,pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 3. 标准化考场
+  { const ws=wb.Sheets['3标准化考场']; if(!ws){D.sections.标准化考场={t:0,d:0,inv:0,nst:0,pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,inv=0,nst=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const idx=gv(ws,r,0),city=gv(ws,r,1);if(typeof idx!=='number'||!city)continue;t++;const tp=gv(ws,r,8),is=gv(ws,r,9);const k=String(city).substr(0,4);if(!bc[k])bc[k]={t:0,d:0,inv:0,nst:0};bc[k].t++;if(is==='是'){d++;bc[k].d++;}else if(tp&&String(tp).trim()){inv++;bc[k].inv++;}else{nst++;bc[k].nst++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.标准化考场={t,d,inv,nst,pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 4. 频繁停电
+  { const ws=wb.Sheets['4频繁停电']; if(!ws){D.sections.频繁停电={t:0,d:0,inv:0,nst:0,pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,inv=0,nst=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const city=gv(ws,r,0),branch=gv(ws,r,2);if(!city||typeof city!=='string'||!branch)continue;t++;const is=gv(ws,r,17),pd=gv(ws,r,18);const k=city.substr(0,4);if(!bc[k])bc[k]={t:0,d:0,inv:0,nst:0};bc[k].t++;if(is==='是'){d++;bc[k].d++;}else if(pd&&typeof pd==='number'&&pd>46000){inv++;bc[k].inv++;}else{nst++;bc[k].nst++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.频繁停电={t,d,inv,nst,pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 5-1 局部绝缘化
+  { const ws=wb.Sheets['5-1局部绝缘化']; if(!ws){D.sections.局部绝缘化={t:0,d:0,pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const br=gv(ws,r,2),dn=gv(ws,r,20);if(!br||typeof br!=='string')continue;t++;const k=br.substr(0,4);if(!bc[k])bc[k]={t:0,d:0};bc[k].t++;if(dn&&String(dn).trim()){d++;bc[k].d++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.局部绝缘化={t,d,pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 5-2 树线矛盾
+  { const ws=wb.Sheets['5-2树线矛盾']; if(!ws){D.sections.树线矛盾={t:0,d:0,pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const idx=gv(ws,r,0);if(typeof idx!=='number')continue;t++;const city=gv(ws,r,1);const k=String(city).substr(0,4);if(!bc[k])bc[k]={t:0,d:0};bc[k].t++;if(gv(ws,r,15)==='是'){d++;bc[k].d++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.树线矛盾={t,d,pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 6 异常台区
+  { const ws=wb.Sheets['6异常台区']; if(!ws){D.sections.异常台区={t:0,d:0,nst:0,pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,nst=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const idx=gv(ws,r,0),br=gv(ws,r,2);if(typeof idx!=='number'||!br)continue;t++;const k=br.substr(0,4);if(!bc[k])bc[k]={t:0,d:0,nst:0};bc[k].t++;if(gv(ws,r,22)==='是'){d++;bc[k].d++;}else{nst++;bc[k].nst++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.异常台区={t,d,nst,pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 7 示范区
+  { const ws=wb.Sheets['7.示范区']; if(!ws){D.sections.示范区={t:0,totalInvest:'0',avgComp:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,ti=0,tc=0,bc={};
+    for(let r=rd.s.r+2;r<=rd.e.r;r++){const idx=gv(ws,r,0);if(typeof idx!=='number')continue;t++;const inv=gv(ws,r,4),comp=gv(ws,r,30);ti+=(inv||0);if(comp!=null)tc+=comp;const k=String(gv(ws,r,1)).substr(0,4);if(!bc[k])bc[k]={t:0,c:0};bc[k].t++;if(comp!=null)bc[k].c+=comp}
+    // 过滤"合计"和非鄂尔多斯
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k!=='合计'&&k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.示范区={t,totalInvest:ti.toFixed(0),avgComp:(t?(tc/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 9 跨产权小区
+  { const ws=wb.Sheets['9.跨产权供电小区']; if(!ws){D.sections.跨产权小区={t:0,d:0,dir:0,ref:0,bld:0,pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,dir=0,ref=0,bld=0,bc={};
+    for(let r=rd.s.r+3;r<=rd.e.r;r++){const nm=gv(ws,r,3);if(!nm||String(nm).startsWith('附')||String(nm).startsWith('错'))continue;t++;const city=gv(ws,r,1),k=String(city).substr(0,4);if(!bc[k])bc[k]={t:0,d:0};bc[k].t++;const mode=gv(ws,r,8);if(mode==='直接移交')dir++;else if(mode==='先改造后移交')ref++;else if(mode==='以建代改')bld++;const w=gv(ws,r,17);if(w&&String(w).trim()){d++;bc[k].d++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.跨产权小区={t,d,dir,ref,bld,pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 10 农牧区线路
+  { const ws=wb.Sheets['10.1700余条农牧区配电线路清单']||wb.Sheets['11.1700余条农牧区配电线路清单']; if(!ws){D.sections.农牧区线路={t:0,d:0,totalInvest:'0',pct:'0.0',bc:{}};} else {
+    const rd=XLSX.utils.decode_range(ws['!ref']); let t=0,d=0,ti=0,bc={};
+    for(let r=rd.s.r+1;r<=rd.e.r;r++){const unit=gv(ws,r,0);if(typeof unit!=='number')continue;t++;ti+=(gv(ws,r,5)||0);const k=String(gv(ws,r,1)).substr(0,4);if(!bc[k])bc[k]={t:0,d:0};bc[k].t++;if(gv(ws,r,11)==='是'){d++;bc[k].d++;}}
+    const filteredBC={};Object.entries(bc).forEach(([k,v])=>{if(k.includes('鄂尔多斯'))filteredBC[k]=v;});
+    D.sections.农牧区线路={t,d,totalInvest:ti.toFixed(0),pct:(t?(d/t*100).toFixed(1):'0.0'),bc:filteredBC};
+  }}
+
+  // 汇总
+  let gt=0,gd=0,gi=0,gns=0,gv2=0;
+  for(const[n,s] of Object.entries(D.sections)){gt+=(s.t||0);gd+=(s.d||0);gi+=(s.inv||0);gns+=(s.nst||0);gv2+=(parseFloat(s.totalInvest)||0);}
+  D.grand={total:gt,done:gd,investing:gi,notstart:gns,invest:gv2.toFixed(0),pct:(gt?(gd/gt*100).toFixed(1):'0.0')};
+
+  return D;
 }
 
 // ========== 渲染主函数 ==========
@@ -222,13 +400,8 @@ function renderDashboard() {
   document.getElementById('grandInvest').textContent = Number(G.invest).toLocaleString();
   document.getElementById('grandPct').textContent = G.pct + '%';
 
-  // ===== ECharts 饼图 =====
+  // ===== 饼图 =====
   const pieChart = echarts.init(document.getElementById('pieChart'));
-  const pd = [
-    { value: G.done, name: '已完成', itemStyle: { color: '#00e88f' } },
-    { value: G.investing || 0, name: '进行中', itemStyle: { color: '#ffa600' } },
-    { value: G.notstart || 0, name: '未开始', itemStyle: { color: '#ff4757' } }
-  ];
   pieChart.setOption({
     tooltip: { trigger: 'item', formatter: '{b}: {c}项 ({d}%)' },
     legend: { bottom: 0, textStyle: { color: '#8899bb', fontSize: 11 } },
@@ -240,11 +413,16 @@ function renderDashboard() {
       itemStyle: { borderRadius: 6, borderColor: '#111638', borderWidth: 2 },
       label: { show: false },
       emphasis: { label: { show: true, fontSize: 14, fontWeight: 'bold', color: '#fff' } },
-      data: pd
+      data: [
+        { value: G.done, name: '已完成', itemStyle: { color: '#00e88f' } },
+        { value: G.investing || 0, name: '进行中', itemStyle: { color: '#ffa600' } },
+        { value: G.notstart || 0, name: '未开始', itemStyle: { color: '#ff4757' } }
+      ]
     }]
   });
+  charts.pieChart = pieChart;
 
-  // ===== ECharts 雷达图 =====
+  // ===== 雷达图 —— 修复热点被遮挡 =====
   const radarChart = echarts.init(document.getElementById('radarChart'));
   const categoryNames = ['养老院', '高层小区', '标准化考场', '频繁停电', '局部绝缘化', '树线矛盾', '异常台区', '示范区', '跨产权小区', '农牧区线路'];
   const categoryValues = categoryNames.map(name => {
@@ -254,7 +432,14 @@ function renderDashboard() {
     return parseFloat(pct);
   });
   radarChart.setOption({
-    tooltip: {},
+    tooltip: {
+      trigger: 'item',
+      formatter: params => {
+        // 自定义 tooltip 避免被遮挡
+        const idx = categoryNames.indexOf(params.name);
+        return '<b>' + params.name + '</b><br/>完成率: <b>' + categoryValues[idx] + '%</b>';
+      }
+    },
     radar: {
       indicator: categoryNames.map(n => ({ name: n, max: 100 })),
       shape: 'polygon',
@@ -262,7 +447,9 @@ function renderDashboard() {
       axisName: { color: '#8899bb', fontSize: 10 },
       splitLine: { lineStyle: { color: 'rgba(100,180,255,0.1)' } },
       splitArea: { areaStyle: { color: ['rgba(0,212,255,0.02)', 'rgba(0,212,255,0.05)'] } },
-      axisLine: { lineStyle: { color: 'rgba(100,180,255,0.15)' } }
+      axisLine: { lineStyle: { color: 'rgba(100,180,255,0.15)' } },
+      // 关键修复：让雷达图标签显示在外部，不被图形遮挡
+      radius: '65%'
     },
     series: [{
       type: 'radar',
@@ -271,37 +458,15 @@ function renderDashboard() {
         name: '完成率(%)',
         areaStyle: { color: 'rgba(0,212,255,0.15)' },
         lineStyle: { color: '#00d4ff', width: 2 },
-        itemStyle: { color: '#00d4ff' }
+        itemStyle: { color: '#00d4ff' },
+        // 关键修复：标签显示在外部
+        label: { show: true, position: 'outside', fontSize: 10, color: '#e0e8f5', formatter: '{c}%' }
       }]
     }]
   });
+  charts.radarChart = radarChart;
 
-  // ===== ECharts 投资对比图 =====
-  const investChart = echarts.init(document.getElementById('investChart'));
-  const investCategories = [];
-  const investValues = [];
-  const doneValues = [];
-  categoryNames.forEach(name => {
-    const s = S[name];
-    if (s && s.totalInvest) {
-      investCategories.push(name);
-      investValues.push(parseFloat(s.totalInvest) || 0);
-      doneValues.push((s.done || 0) * (parseFloat(s.totalInvest) / (s.t || 1)));
-    }
-  });
-  investChart.setOption({
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: { data: ['总投资(万)', '估算已投'], textStyle: { color: '#8899bb', fontSize: 10 }, bottom: 0 },
-    grid: { left: 80, right: 20, top: 10, bottom: 30 },
-    xAxis: { type: 'value', axisLine: { lineStyle: { color: 'rgba(100,180,255,0.2)' } }, splitLine: { lineStyle: { color: 'rgba(100,180,255,0.06)' } }, axisLabel: { color: '#8899bb', fontSize: 10 } },
-    yAxis: { type: 'category', data: investCategories.reverse(), axisLine: { lineStyle: { color: 'rgba(100,180,255,0.2)' } }, axisLabel: { color: '#8899bb', fontSize: 10 } },
-    series: [
-      { name: '总投资(万)', type: 'bar', data: investValues.reverse(), itemStyle: { color: 'linear-gradient(90deg, #0066ff, #00d4ff)', borderRadius: [0, 4, 4, 0] }, barWidth: 14 },
-      { name: '估算已投', type: 'bar', data: doneValues.reverse(), itemStyle: { color: 'linear-gradient(90deg, #00aa55, #00e88f)', borderRadius: [0, 4, 4, 0] }, barWidth: 14 }
-    ]
-  });
-
-  // ===== TOP5 卡片 =====
+  // ===== 各工程完成率排名（修复横轴内容被遮挡） =====
   const ci = categoryNames.map(name => {
     const s = S[name];
     if (!s) return { n: name, p: 0 };
@@ -309,21 +474,33 @@ function renderDashboard() {
     return { n: name, p: parseFloat(pct) };
   });
   ci.sort((a, b) => b.p - a.p);
-  document.getElementById('categoryChart').innerHTML = ci.slice(0, 5).map(item => {
-    const cls = item.p >= 60 ? 'fill-green' : item.p >= 30 ? 'fill-orange' : 'fill-red';
-    return '<div style="text-align:center"><div style="font-size:11px;color:var(--text2);margin-bottom:6px">' + item.n + '</div><div class="progress-bar" style="height:10px"><div class="progress-fill ' + cls + '" style="width:' + item.p + '%"></div></div><div style="font-size:14px;font-weight:700;margin-top:4px">' + item.p + '%</div></div>';
-  }).join('');
 
-  // ===== ECharts 进度条（各工程完成率排名） =====
   const progressChart = echarts.init(document.getElementById('progressChart'));
   const progNames = ci.map(c => c.n);
   const progValues = ci.map(c => c.p);
   const progColors = progValues.map(v => v >= 60 ? '#00e88f' : v >= 30 ? '#ffa600' : '#ff4757');
+
   progressChart.setOption({
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: params => params[0].name + ': ' + params[0].value + '%' },
-    grid: { left: 100, right: 40, top: 10, bottom: 10 },
-    xAxis: { type: 'value', max: 100, axisLine: { lineStyle: { color: 'rgba(100,180,255,0.2)' } }, splitLine: { lineStyle: { color: 'rgba(100,180,255,0.06)' } }, axisLabel: { color: '#8899bb', formatter: '{value}%' } },
-    yAxis: { type: 'category', data: progNames.reverse(), axisLine: { lineStyle: { color: 'rgba(100,180,255,0.2)' } }, axisLabel: { color: '#e0e8f5', fontSize: 11 } },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: params => params[0].name + ': ' + params[0].value + '%'
+    },
+    // 关键修复：增大 grid.left 给 y 轴标签留足空间
+    grid: { left: 130, right: 50, top: 10, bottom: 10 },
+    xAxis: {
+      type: 'value',
+      max: 100,
+      axisLine: { lineStyle: { color: 'rgba(100,180,255,0.2)' } },
+      splitLine: { lineStyle: { color: 'rgba(100,180,255,0.06)' } },
+      axisLabel: { color: '#8899bb', formatter: '{value}%' }
+    },
+    yAxis: {
+      type: 'category',
+      data: progNames.reverse(),
+      axisLine: { lineStyle: { color: 'rgba(100,180,255,0.2)' } },
+      axisLabel: { color: '#e0e8f5', fontSize: 11 }
+    },
     series: [{
       type: 'bar',
       data: progValues.reverse().map((v, i) => ({
@@ -331,32 +508,39 @@ function renderDashboard() {
         itemStyle: { color: progColors[progValues.length - 1 - i], borderRadius: [0, 4, 4, 0] }
       })),
       barWidth: 16,
-      label: { show: true, position: 'right', color: '#e0e8f5', fontSize: 11, formatter: '{c}%' }
+      // 动画入场
+      animationDuration: 1200,
+      animationEasing: 'cubicOut',
+      label: {
+        show: true,
+        position: 'right',
+        color: '#e0e8f5',
+        fontSize: 11,
+        formatter: '{c}%'
+      }
     }]
   });
+  charts.progressChart = progressChart;
 
-  // ===== 预警中心 =====
+  // ===== 综合预警与督办（合并） =====
+  // 预警：完成率极低或有特殊情况
   const alerts = [];
-  if (parseFloat(S.异常台区?.pct) === 0) alerts.push({ lv: 'critical', t: '异常台区治理', d: '14个项目尚未启动治理，完成率0%', i: '🔴' });
+  if (parseFloat(S.异常台区?.pct) === 0) alerts.push({ lv: 'critical', t: '异常台区治理', d: '112个项目尚未启动治理，完成率0%', i: '🔴' });
   if (parseFloat(S.高层小区?.pct) < 20) alerts.push({ lv: 'warning', t: '高层小区治理', d: '仅' + (S.高层小区?.d || 0) + '/' + S.高层小区?.t + '个完成，完成率' + S.高层小区?.pct + '%', i: '🟡' });
   if (parseFloat(S.跨产权小区?.pct) === 0) alerts.push({ lv: 'warning', t: '跨产权供电小区移交', d: S.跨产权小区?.t + '个项目尚未完成移交，直接移交' + (S.跨产权小区?.dir || 0) + '个、先改后移' + (S.跨产权小区?.ref || 0) + '个、以建代改' + (S.跨产权小区?.bld || 0) + '个', i: '🟡' });
   if (parseFloat(S.农牧区线路?.pct) < 20) alerts.push({ lv: 'critical', t: '农牧区线路治理', d: '仅完成' + S.农牧区线路?.pct + '%，共' + (S.农牧区线路?.d || 0) + '/' + S.农牧区线路?.t + '条', i: '🔴' });
-  document.getElementById('alertsGrid').innerHTML = alerts.map(a =>
-    '<div class="card"><div class="alert-item alert-' + a.lv + '"><span style="font-size:18px">' + a.i + '</span><div><div style="font-weight:600;margin-bottom:2px">' + a.t + '</div><div style="color:var(--text2)">' + a.d + '</div></div></div></div>'
-  ).join('') || '<div class="card" style="text-align:center;color:var(--text2);padding:20px">✅ 暂无预警事项</div>';
 
-  // ===== 督办 =====
+  document.getElementById('alertsGrid').innerHTML = alerts.map(a =>
+    '<div class="alert-item alert-' + a.lv + '"><span style="font-size:18px">' + a.i + '</span><div><div style="font-weight:600;margin-bottom:2px">' + a.t + '</div><div style="color:var(--text2)">' + a.d + '</div></div></div>'
+  ).join('') || '<div style="color:var(--text2);text-align:center;padding:20px">✅ 暂无预警事项</div>';
+  document.getElementById('alertCount').textContent = '(' + alerts.length + ')';
+
+  // 督办：完成率低于 30% 的工程
   const delays = ci.filter(x => x.p < 30).sort((a, b) => a.p - b.p);
   document.getElementById('delayItems').innerHTML = delays.map(d =>
     '<div class="alert-item alert-critical" style="margin-bottom:8px"><span style="font-size:16px">⚠️</span><div><div style="font-weight:600">' + d.n + '</div><div style="color:var(--text2);font-size:11px">完成率 ' + d.p + '%</div></div></div>'
   ).join('') || '<div style="color:var(--text2);text-align:center;padding:20px">暂无滞后项目</div>';
-
-  // ===== 投资统计 =====
-  document.getElementById('investStats').innerHTML =
-    '<div class="mini-stat"><div class="val" style="color:var(--accent)">' + Number(G.invest).toLocaleString() + '万</div><div class="lbl">总投资规模</div></div>' +
-    (S.示范区?.totalInvest ? '<div class="mini-stat"><div class="val" style="color:var(--green)">' + Number(S.示范区.totalInvest).toLocaleString() + '万</div><div class="lbl">示范区投资</div></div>' : '') +
-    (S.农牧区线路?.totalInvest ? '<div class="mini-stat"><div class="val" style="color:var(--orange)">' + Number(S.农牧区线路.totalInvest).toLocaleString() + '万</div><div class="lbl">农牧区线路投资</div></div>' : '') +
-    (S.养老院?.totalInvest ? '<div class="mini-stat"><div class="val" style="color:var(--accent2)">' + Number(S.养老院.totalInvest).toLocaleString() + '万</div><div class="lbl">养老院投资</div></div>' : '');
+  document.getElementById('delayCount').textContent = '(' + delays.length + ')';
 
   // ===== 工程维度明细表 =====
   const catData = categoryNames.map(name => ({ n: name, s: S[name] })).filter(x => x.s);
@@ -367,8 +551,8 @@ function renderDashboard() {
     const st = parseFloat(pct) >= 60 ? '良好' : parseFloat(pct) >= 30 ? '关注' : '预警';
     let row = '<tr><td style="font-weight:600">' + item.n + '</td>';
     row += '<td class="num">' + (s.t || 0).toLocaleString() + '</td>';
-    row += '<td class="num">' + (s.tot || s.d || 0).toLocaleString() + '</td>';
-    row += '<td class="num">' + (s.inv || '-').toLocaleString() + '</td>';
+    row += '<td class="num">' + (s.d || 0).toLocaleString() + '</td>';
+    row += '<td class="num">' + (s.inv !== undefined ? s.inv.toLocaleString() : '-') + '</td>';
     row += '<td class="num">' + (s.nst !== undefined ? s.nst.toLocaleString() : '-') + '</td>';
     row += '<td class="num">' + (s.totalInvest ? Number(s.totalInvest).toLocaleString() : '-') + '</td>';
     row += '<td><span class="badge ' + cls + '">' + pct + '%</span></td>';
@@ -383,7 +567,6 @@ function renderDashboard() {
       '<div class="mini-stat"><div class="val" style="color:var(--accent)">' + ds.t + '</div><div class="lbl">示范区总数</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--green)">' + Number(ds.totalInvest || 0).toLocaleString() + '万</div><div class="lbl">年度投资计划</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--orange)">' + (ds.avgComp || '0') + '%</div><div class="lbl">平均完成率</div></div>';
-    // 示范区 bc 是对象 {city: {t, c}}, 转为数组渲染（过滤"合计"行）
     const demoEntries = Object.entries(ds.bc || {}).filter(([k]) => k !== '合计');
     document.getElementById('demoTable').innerHTML = demoEntries.map(([name, v]) =>
       '<tr><td>' + name + '</td><td class="num">' + v.t.toLocaleString() + '个</td><td><span class="badge badge-green">' + (v.c ? (v.c * 100).toFixed(1) : '0') + '%</span></td></tr>'
@@ -397,7 +580,6 @@ function renderDashboard() {
       '<div class="mini-stat"><div class="val" style="color:var(--accent)">' + ls.t.toLocaleString() + '</div><div class="lbl">线路总数</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--green)">' + (ls.d || 0).toLocaleString() + '</div><div class="lbl">已完成</div></div>' +
       '<div class="mini-stat"><div class="val" style="color:var(--orange)">' + Number(ls.totalInvest || 0).toLocaleString() + '万</div><div class="lbl">投资预算</div></div>';
-    // 农牧区线路 bc 是对象 {city: {t, d}}, 转为数组渲染
     const lineEntries = Object.entries(ls.bc || {});
     document.getElementById('lineTable').innerHTML = lineEntries.map(([name, v]) => {
       const rate = v.d !== undefined && v.t > 0 ? (v.d / v.t * 100) : 0;
@@ -409,15 +591,12 @@ function renderDashboard() {
   // 隐藏加载遮罩
   document.getElementById('loading').classList.add('hidden');
 
-  // 窗口缩放时重绘图表（避免重复绑定）
+  // 窗口缩放时重绘图表
   let resizeHandler = null;
   function setupResize() {
     if (resizeHandler) window.removeEventListener('resize', resizeHandler);
     resizeHandler = () => {
-      pieChart.resize();
-      radarChart.resize();
-      investChart.resize();
-      progressChart.resize();
+      Object.values(charts).forEach(c => { try { c.resize(); } catch(e) {} });
     };
     window.addEventListener('resize', resizeHandler);
   }
@@ -425,9 +604,7 @@ function renderDashboard() {
 }
 
 // ========== 初始化 ==========
-loadData().then(ok => {
-  if (ok) renderDashboard();
-});
+loadData().then(ok => { if (ok) renderDashboard(); });
 </script>
 </body>
 </html>
